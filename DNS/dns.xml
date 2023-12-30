@@ -1,0 +1,11 @@
+<!-- DNS decoder -->
+
+<decoder name="bind9-dns">
+  <prematch>queries: info: </prematch>
+</decoder>
+
+<decoder name="bind9-dns-log1">
+  <parent>bind9-dns</parent>
+  <regex offset="after_parent">client \S+ (\S+)#\d+ \(\S+\): query: (\S+) \S+ (\S+) \S+ \((\S+)\)</regex>
+  <order>srcip, address, type, server</order>
+</decoder>
