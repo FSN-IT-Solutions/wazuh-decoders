@@ -1,0 +1,46 @@
+<!-- mikrotik vpn log -->
+
+<decoder name="mkt_vpn_log">
+  <prematch>l2tp,</prematch>
+</decoder>
+<decoder name="mkt_l2tp_vpn_login">
+  <parent>mkt_vpn_log</parent>
+  <prematch offset="after_parent">logged in</prematch>
+  <regex offset="after_parent">\S+ (\S+) (logged in), (\S+) \S+ (\S+)</regex>
+  <order>user, status, ip, srcip</order>
+</decoder>
+<decoder name="mkt_l2tp_vpn_logout">
+  <parent>mkt_vpn_log</parent>
+  <prematch offset="after_parent">logged out</prematch>
+  <regex offset="after_parent">\S+ (\S+) (logged out), \S+ \S+ \S+ \S+ \S+ from (\S+)</regex>
+  <order>user, status, srcip</order>
+</decoder>
+<decoder name="mkt_l2tp_vpn_auth_failed">
+  <parent>mkt_vpn_log</parent>
+  <prematch offset="after_parent">authentication failed</prematch>
+  <regex offset="after_parent">\S(\S+)\S: \S+ (\S+) (\S+ \S+)</regex>
+  <order>srcip, user, status</order>
+</decoder>
+
+
+<decoder name="mkt_pptp_vpn_log">
+  <prematch>pptp,</prematch>
+</decoder>
+<decoder name="mkt_pptp_vpn_login">
+  <parent>mkt_pptp_vpn_log</parent>
+  <prematch offset="after_parent">logged in</prematch>
+  <regex offset="after_parent">\S+ (\S+) (logged in), (\S+) \S+ (\S+)</regex>
+  <order>user, status, ip, srcip</order>
+</decoder>
+<decoder name="mkt_pptp_vpn_logout">
+  <parent>mkt_pptp_vpn_log</parent>
+  <prematch offset="after_parent">logged out</prematch>
+  <regex offset="after_parent">\S+ (\S+) (logged out), \S+ \S+ \S+ \S+ \S+ from (\S+)</regex>
+  <order>user, status, srcip</order>
+</decoder>
+<decoder name="mkt_pptp_vpn_auth_failed">
+  <parent>mkt_pptp_vpn_log</parent>
+  <prematch offset="after_parent">authentication failed</prematch>
+  <regex offset="after_parent">\S(\S+)\S: \S+ (\S+) (\S+ \S+)</regex>
+  <order>srcip, user, status</order>
+</decoder>

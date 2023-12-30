@@ -1,0 +1,30 @@
+<!-- mikrotik firewall log -->
+
+<decoder name="mkt_fw">
+  <prematch>^firewall,</prematch>
+</decoder>
+
+<decoder name="mkt_fw_mt1">
+  <parent>mkt_fw</parent>
+  <prematch offset="after_parent">\(type \d+, code \d+\)</prematch>
+  <regex offset="after_parent">(\S+) (\S+): in:(\S+) out:(\S+), \S+ (\S+), proto (\S+) \(\S+ \d+, \S+ \d+\), (\S+)->(\S+), \S+ \S+,\s\S+\s(\d+)|(\S+) (\S+): in:(\S+) out:(\S+), \S+ (\S+), proto (\S+) \(\S+ \d+, \S+ \d+\), (\S+)->(\S+), \S+ (\S+)</regex>
+  <order>fw.event, fw.chain, inbound, outbound, srcmac, protocol, srcip, dstip, len</order>
+</decoder>
+
+
+<decoder name="mkt_fw_mt2">
+  <parent>mkt_fw</parent>
+  <prematch offset="after_parent">\(SYN|ACK|,|PSH|RST\)|UDP</prematch>
+  <regex offset="after_parent">(\S+) (\S+): \S+:(\S+) \S+:(\S+), \S+ (\S+) \(\S+\), (\S+):(\S+)->(\S+):(\S+), \S+ (\d+)|(\S+) (\S+): in:(\S+) out:(\S+), \S+ \S+, proto (\S+) \S+ (\S+):(\S+)->(\S+):(\S+), \S+ \S+ \S+ (\d+)|(\S+) (\S+): in:(\S+) out:(\S+), \S+ \S+, proto (\S+) \S+ (\S+):(\S+)->(\S+):(\S+), \S+ (\d+)|\S+ (\S+) (\S+): in:(\S+) out:(\S+), \S+ \S+, proto (\S+) \(ACK,RST\), (\S+):(\S+)->(\S+):(\S+), \S+ \S+ \S+ (\d+)|(\S+) (\S+): \S+:(\S+) \S+:\((\S+ \S+)\), \S+ (\S+) \(\S+\), (\S+):(\S+)->(\S+):(\S+), \S+ (\d+)|(\S+) (\S+): \S+:\((\S+ \S+)\) \S+:(\S+), \S+ (\S+) \(\S+\), (\S+):(\S+)->(\S+):(\S+), \S+ (\d+)|(\S+) (\S+): \S+:(\S+) \S+:\((\S+ \S+)\), \S+ \S+ proto (\S+), (\S+):(\S+)->(\S+):(\S+), \S+ (\S+)|(\S+) (\S+): \S+:\((\S+ \S+)\) \S+:(\S+), \S+ \S+ proto (\S+), (\S+):(\S+)->(\S+):(\S+), \S+ (\S+)</regex>
+  <order>fw.event, fw.chain, inbound, outbound, protocol, srcip, srcport, dstip, dstport, len</order>
+</decoder>
+
+
+
+
+
+
+
+
+
+

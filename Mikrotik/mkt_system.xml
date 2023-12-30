@@ -1,0 +1,11 @@
+<!-- mikrotik system log -->
+
+<decoder name="mkt_system_log">
+  <prematch>^system,</prematch>
+</decoder>
+<decoder name="mkt_sys_err_ssh">
+  <parent>mkt_system_log</parent>
+  <prematch offset="after_parent">login failure</prematch>
+  <regex offset="after_prematch">\S+ \S+ (\S+) \S+ (\S+) \S+ (\S+)</regex>
+  <order>user, srcip, protocol</order>
+</decoder>
